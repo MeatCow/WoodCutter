@@ -5,10 +5,6 @@ import java.util.List;
 import org.powerbot.script.*;
 import org.powerbot.script.rt4.*;
 import org.powerbot.script.rt4.ClientContext;
-import org.powerbot.script.Locatable;
-
-import javax.swing.plaf.basic.BasicDesktopIconUI;
-import java.util.concurrent.ThreadLocalRandom;
 
 @Script.Manifest(
         name = "WoodCutterXtreme", properties = "author=Andrew & Matthieu; client=4;",
