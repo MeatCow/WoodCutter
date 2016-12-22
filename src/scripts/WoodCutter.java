@@ -18,8 +18,8 @@ public class WoodCutter extends PollingScript<ClientContext> {
     private final int DOING_NOTHING = -1;
     private final int RADIUS = 15;
     private final int WALKING_DISTANCE = 2;
-    private int[] cutable = {1278,1276,1751};
-    private int[] dropable = {1511,1521};
+    private int[] cutable = {1278, 1276, 1751};
+    private int[] dropable = {1511, 1521};
     private Tile initialTile;
 
     @Override
@@ -40,9 +40,10 @@ public class WoodCutter extends PollingScript<ClientContext> {
                 ctx.movement.step(initialTile);
             } else {
                 GameObject tree = allTrees.nearest().poll();
-                ctx.camera.turnTo(getTreePositionRandom(tree.tile()));
-                if (treeFarAway(tree)){
-                    ctx.movement.step(tree);
+                Locatable randomTree = getTreePositionRandom(tree.tile());
+                if (!tree.inViewport() || treeFarAway(randomTree)) {
+                    ctx.camera.turnTo(randomTree);
+                    ctx.movement.step(randomTree);
                 }
                 tree.interact("Chop");
             }
@@ -59,7 +60,7 @@ public class WoodCutter extends PollingScript<ClientContext> {
     }
 
     private void dropAllLogs() {
-        for (Item inventoryItem: ctx.inventory.select().id(dropable)) {
+        for (Item inventoryItem : ctx.inventory.select().id(dropable)) {
             inventoryItem.interact("Drop");
         }
     }
@@ -72,14 +73,15 @@ public class WoodCutter extends PollingScript<ClientContext> {
 
     private boolean inventoryIsFull() {
         return ctx.inventory.select().count() == 28;
+
     }
 
-    private Boolean treeFarAway(GameObject tree){
+    private Boolean treeFarAway(Locatable tree) {
         int playerLocationX = ctx.players.local().tile().x();
         int playerLocationY = ctx.players.local().tile().y();
         int treeLocationX = tree.tile().x();
         int treeLocationY = tree.tile().y();
-        return  playerLocationX < treeLocationX - WALKING_DISTANCE
+        return playerLocationX < treeLocationX - WALKING_DISTANCE
                 || playerLocationX > treeLocationX + WALKING_DISTANCE
                 || playerLocationY < treeLocationY - WALKING_DISTANCE
                 || playerLocationY > treeLocationY + WALKING_DISTANCE;
@@ -92,7 +94,7 @@ public class WoodCutter extends PollingScript<ClientContext> {
         return tile;
     }
 
-    private int getRandomInt(int maxInt){
+    private int getRandomInt(int maxInt) {
         return ThreadLocalRandom.current().nextInt(0, maxInt + 1);
     }
     /*private Objects checkInventory(){
