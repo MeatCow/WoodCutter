@@ -1,11 +1,11 @@
 package scripts;
 
-import org.powerbot.script.Locatable;
-import org.powerbot.script.PollingScript;
-import org.powerbot.script.Script;
-import org.powerbot.script.Tile;
+import org.powerbot.script.*;
 import org.powerbot.script.rt4.*;
+import org.powerbot.script.rt4.ClientContext;
+import org.powerbot.script.Locatable;
 
+import javax.swing.plaf.basic.BasicDesktopIconUI;
 import java.util.concurrent.ThreadLocalRandom;
 
 @Script.Manifest(
@@ -15,6 +15,7 @@ import java.util.concurrent.ThreadLocalRandom;
 public class WoodCutter extends PollingScript<ClientContext> {
 
     private BasicQuery<GameObject> allTrees;
+    private Boolean bank = true;
     private final int DOING_NOTHING = -1;
     private final int RADIUS = 15;
     private final int WALKING_DISTANCE = 2;
@@ -26,7 +27,6 @@ public class WoodCutter extends PollingScript<ClientContext> {
     public void start() {
         allTrees = ctx.objects.select().id(cutable);
         initialTile = ctx.players.local().tile();
-
     }
 
     @Override
@@ -34,7 +34,11 @@ public class WoodCutter extends PollingScript<ClientContext> {
         allTrees = ctx.objects.select().id(cutable);
 
         if (inventoryIsFull()) {
-            dropAllLogs();
+            if (bank) {
+                banking();
+            } else {
+                dropAllLogs();
+            }
         } else if (shouldCut()) {
             if (shouldStepBack()) {
                 ctx.movement.step(initialTile);
@@ -47,9 +51,39 @@ public class WoodCutter extends PollingScript<ClientContext> {
                 }
                 tree.interact("Chop");
             }
+        } else {
+            switchTabs();
         }
     }
 
+    private void banking() {
+        if (ctx.bank.select().viewable().poll() != null) {
+             ctx.movement.step(ctx.bank.nearest());
+        } else {
+            ctx.bank.open();
+            ctx.bank.depositInventory();
+            ctx.bank.close();
+        }
+    }
+
+    /**
+     * Switches tabs randomly
+     */
+    private void switchTabs() {
+        if (getRandomInt(100) == 100 && ctx.game.tab() != Game.Tab.EQUIPMENT) {
+            ctx.game.tab(Game.Tab.EQUIPMENT);
+        } else if (getRandomInt(50) == 50 && ctx.game.tab() != Game.Tab.STATS) {
+            ctx.game.tab(Game.Tab.STATS);
+            ctx.input.move(680 + getRandomInt(50),364 + getRandomInt(25));
+        } else if (getRandomInt(20) == 20 && ctx.game.tab() != Game.Tab.INVENTORY){
+            ctx.game.tab(Game.Tab.INVENTORY);
+        }
+    }
+
+    /**
+     * Verify if the player should go back to square one
+     * @return
+     */
     private boolean shouldStepBack() {
         int locationX = ctx.players.local().tile().x();
         int locationY = ctx.players.local().tile().y();
@@ -59,7 +93,13 @@ public class WoodCutter extends PollingScript<ClientContext> {
                 || locationY > initialTile.y() + RADIUS;
     }
 
+    /**
+     * Drops all the logs on the groud
+     */
     private void dropAllLogs() {
+        if (ctx.game.tab() != Game.Tab.INVENTORY)  {
+            ctx.game.tab(Game.Tab.INVENTORY);
+        }
         for (Item inventoryItem: ctx.inventory.select().id(dropable)) {
             inventoryItem.interact("Drop");
         }
@@ -97,6 +137,7 @@ public class WoodCutter extends PollingScript<ClientContext> {
     private int getRandomInt(int maxInt){
         return ThreadLocalRandom.current().nextInt(0, maxInt + 1);
     }
+
     /*private Objects checkInventory(){
 
     }*/
