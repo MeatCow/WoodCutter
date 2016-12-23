@@ -1,19 +1,24 @@
 package scripts;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
+
+import gui.ProgressPaint;
+import org.powerbot.bot.rt4.client.*;
 import org.powerbot.script.*;
 import org.powerbot.script.rt4.*;
 import org.powerbot.script.rt4.ClientContext;
+import org.powerbot.script.rt4.Widget;
 
 @Script.Manifest(
         name = "WoodCutterXtreme", properties = "author=Andrew & Matthieu; client=4;",
         description = "A neat little project"
 )
-public class WoodCutter extends PollingScript<ClientContext> {
+public class WoodCutter extends PollingScript<ClientContext> implements PaintListener{
 
-    private boolean bank = true;
-
+    private boolean bank = false;
+    private ProgressPaint painter = new ProgressPaint(ctx); // If declared in constructor, repaint() throws IOException
     private List<Task> tasks;
 
     @Override
@@ -53,5 +58,10 @@ public class WoodCutter extends PollingScript<ClientContext> {
         } else if (Random.nextInt(0, 20) == 20 && ctx.game.tab() != Game.Tab.INVENTORY) {
             ctx.game.tab(Game.Tab.INVENTORY);
         }
+    }
+
+    @Override
+    public void repaint(Graphics g) {
+        painter.drawProgress(g);
     }
 }
