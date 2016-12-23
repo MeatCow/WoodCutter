@@ -29,13 +29,18 @@ public class Bank extends Task {
 
     @Override
     public void execute() {
-
-        if (farFromObject(ctx.bank.nearest().tile(), 2)) {
-            ctx.movement.step(ctx.bank.nearest());
-            ctx.camera.turnTo(ctx.bank.nearest());
-        } else {
-            clickOnBank();
-            depositInBank();
+        boolean banking = true;
+        while (banking) {
+            if (farFromObject(ctx.bank.nearest().tile(), 5)) {
+                ctx.movement.step(ctx.bank.nearest());
+                ctx.camera.turnTo(ctx.bank.nearest());
+            } else {
+                clickOnBank();
+                depositInBank();
+                if (!shouldActivate()) {
+                    banking = false;
+                }
+            }
         }
     }
 
