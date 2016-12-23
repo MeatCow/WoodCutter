@@ -17,7 +17,7 @@ import org.powerbot.script.rt4.Widget;
 )
 public class WoodCutter extends PollingScript<ClientContext> implements PaintListener{
 
-    private boolean bank = false;
+    private boolean bank = true;
     private ProgressPaint painter = new ProgressPaint(ctx); // If declared in constructor, repaint() throws IOException
     private List<Task> tasks;
 
@@ -25,11 +25,14 @@ public class WoodCutter extends PollingScript<ClientContext> implements PaintLis
     public void start() {
         tasks = new ArrayList();
         tasks.add(new Chop(ctx));
+        tasks.add(new Return(ctx));
         if (bank) {
             tasks.add(new Bank(ctx));
         } else {
             tasks.add(new Drop(ctx));
         }
+
+        tasks.add(new RandomEvent(ctx));
     }
 
     @Override
