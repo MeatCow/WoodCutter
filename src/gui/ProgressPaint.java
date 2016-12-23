@@ -18,13 +18,13 @@ public class ProgressPaint {
 
     private final int RECTANGLE_X = 0;
     private final int RECTANGLE_Y = 25;
-    private final int RECTANGLE_WIDTH = 250;
+    private final int RECTANGLE_WIDTH = 210;
     private final int RECTANGLE_HEIGHT = 105;
 
     public ProgressPaint(ClientContext ctx) {
         startTime = System.currentTimeMillis();
         this.ctx = ctx;
-        backgroundColour = new Color(192, 192, 192, 200); // RGBA for transparent gray
+        backgroundColour = new Color(192, 192, 192, 120); // RGBA for transparent gray
     }
 
     public void drawProgress(Graphics g) {
