@@ -4,6 +4,7 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import gui.InitialOptions;
 import gui.ProgressPaint;
 import org.powerbot.script.*;
 import org.powerbot.script.rt4.ClientContext;
@@ -20,7 +21,13 @@ public class WoodCutter extends PollingScript<ClientContext> implements PaintLis
 
     @Override
     public void start() {
+        InitialOptions optionsWindow = new InitialOptions();
+        optionsWindow.setVisible(true);
+
+        waitForOptions(optionsWindow);
+
         tasks = new ArrayList();
+
         tasks.add(new Chop(ctx));
         tasks.add(new Return(ctx));
         if (bank) {
@@ -46,4 +53,9 @@ public class WoodCutter extends PollingScript<ClientContext> implements PaintLis
     public void repaint(Graphics g) {
         painter.drawProgress(g);
     }
+
+    private void waitForOptions(InitialOptions options) {
+        while (!options.ready()) ;
+    }
+
 }
