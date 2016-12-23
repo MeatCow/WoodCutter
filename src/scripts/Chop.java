@@ -14,10 +14,11 @@ public class Chop extends Task {
     private final int WALKING_DISTANCE = 7;
 
     private BasicQuery<GameObject> allTrees;
-    private int[] cutable = {1278,1276,1751, 1750};
+    private int[] cutableIds;
     
-    public Chop(ClientContext ctx) {
+    public Chop(ClientContext ctx, int[] treeIds) {
         super(ctx);
+        cutableIds = treeIds;
     }
 
     @Override
@@ -29,7 +30,7 @@ public class Chop extends Task {
 
     @Override
     public void execute() {
-        allTrees = ctx.objects.select().id(cutable);
+        allTrees = ctx.objects.select().id(cutableIds);
         GameObject tree = allTrees.nearest().poll();
         Locatable randomTree = getTreePositionRandom(tree.tile());
         if (!tree.inViewport() || farFromObject(randomTree,WALKING_DISTANCE)) {

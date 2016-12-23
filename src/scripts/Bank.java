@@ -16,11 +16,13 @@ import java.awt.*;
  */
 public class Bank extends Task {
 
-    public Bank(ClientContext ctx) {
-        super(ctx);
-    }
     private int[] banks = {6943, 24101, 10060, 7409};
-    private int[] bankable = {1511,1521}; // Logs
+    private int[] bankable; // Logs
+
+    public Bank(ClientContext ctx, int[] logIds) {
+        super(ctx);
+        bankable = logIds;
+    }
 
     @Override
     public boolean shouldActivate() {

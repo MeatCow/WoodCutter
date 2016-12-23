@@ -10,10 +10,11 @@ import org.powerbot.script.rt4.Item;
  */
 public class Drop extends Task{
 
-    private int[] dropable = {1511,1521};
+    private int[] dropable;
     
-    public Drop(ClientContext ctx) {
+    public Drop(ClientContext ctx, int[] dropableIds) {
         super(ctx);
+        dropable = dropableIds;
     }
 
     @Override

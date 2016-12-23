@@ -12,6 +12,7 @@ public enum Trees {
 
     int[] treeIds;
     int minLevel;
+    public static final int MAX_IDS = 9; // Update this when you add more ids
 
     private Trees(int[] ids, int minLevel) {
         treeIds = ids;

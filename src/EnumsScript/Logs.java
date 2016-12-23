@@ -10,6 +10,7 @@ public enum Logs {
     Willow(1519),
     Yew(1515);
 
+    public static final int AMOUNT_TYPES = 4;
     int id;
 
     private Logs(int id) {

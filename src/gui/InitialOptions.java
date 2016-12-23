@@ -147,6 +147,7 @@ public class InitialOptions extends JFrame {
 
     private void jButton1ActionPerformed(ActionEvent evt) {
         infoReady = true;
+        setVisible(false);
     }
 
     private void setLookAndFeel() {
