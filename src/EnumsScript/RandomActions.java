@@ -6,7 +6,9 @@ package EnumsScript;
 public enum RandomActions {
 
         MISS_CLICK(0),
-        TURNING_CAMERA(1);
+        TURNING_CAMERA(1),
+        SWITCHING_TAB(2),
+        SWITCHING_TAB2(3);
 
         private final int actionValue;
 

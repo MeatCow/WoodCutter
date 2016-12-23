@@ -24,7 +24,7 @@ public class RandomEvent extends Task {
 
     @Override
     public void execute() {
-        startRandomEvent(Random.nextInt(1, 2));
+        startRandomEvent(Random.nextInt(0, 3));
     }
 
     private void startRandomEvent(int actionValue) {
@@ -32,6 +32,10 @@ public class RandomEvent extends Task {
             missClick();
         } else if (RandomActions.TURNING_CAMERA.getActionValue() == actionValue) {
             turningCamera();
+        } else if (RandomActions.SWITCHING_TAB.getActionValue() == actionValue) {
+            switchTabs();
+        } else if (RandomActions.SWITCHING_TAB2.getActionValue() == actionValue) {
+            switchTabs();
         }
     }
 
@@ -45,5 +49,19 @@ public class RandomEvent extends Task {
     private void turningCamera(){
         ctx.camera.pitch(Random.nextInt(0,100));
         ctx.camera.angle(Random.nextInt(0,360));
+    }
+
+    /**
+     * Switches tabs randomly
+     */
+    private void switchTabs() {
+        if (Random.nextInt(0, 100) == 100 && ctx.game.tab() != Game.Tab.EQUIPMENT) {
+            ctx.game.tab(Game.Tab.EQUIPMENT);
+        } else if (Random.nextInt(0, 50) == 50 && ctx.game.tab() != Game.Tab.STATS) {
+            ctx.game.tab(Game.Tab.STATS);
+            ctx.input.move(680 + Random.nextInt(0, 50), 364 + Random.nextInt(0, 25));
+        } else if (Random.nextInt(0, 20) == 20 && ctx.game.tab() != Game.Tab.INVENTORY) {
+            ctx.game.tab(Game.Tab.INVENTORY);
+        }
     }
 }
