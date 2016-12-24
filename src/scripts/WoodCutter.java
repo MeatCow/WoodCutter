@@ -49,7 +49,6 @@ public class WoodCutter extends PollingScript<ClientContext> implements PaintLis
 
     @Override
     public void poll() {
-        boolean didNothing = false;
         for (Task t : tasks) {
             if (t.shouldActivate()) {
                 t.execute();
@@ -73,6 +72,7 @@ public class WoodCutter extends PollingScript<ClientContext> implements PaintLis
                 cutableIds.add(i);
             }
         }
+
         if (optionsWindow.getOaks()) {
             for (int i:Trees.OAK.getTreeIds()) {
                 cutableIds.add(i);
