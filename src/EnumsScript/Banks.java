@@ -12,7 +12,8 @@ public enum Banks {
     FALADOR_WEST(24101, new Tile(2946,3368,0)),
     VARROCK_WEST(7409, new Tile(3182,3440,0)),
     VARROCK_EST(7409, new Tile(3253,3422,0)),
-    EDGEVILLE(6943 ,new Tile(3093,3494,0));
+    EDGEVILLE(6943 ,new Tile(3093,3494,0)),
+    ALKHARID(6943, new Tile(3271,3167,0));
 
     private final int objectId;
     private final Tile bankPosition;

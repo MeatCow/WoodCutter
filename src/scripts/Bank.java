@@ -3,10 +3,7 @@ package scripts;
 import org.powerbot.script.Locatable;
 import org.powerbot.script.Random;
 import org.powerbot.script.Tile;
-import org.powerbot.script.rt4.BasicQuery;
-import org.powerbot.script.rt4.ClientContext;
-import org.powerbot.script.rt4.GameObject;
-import org.powerbot.script.rt4.Item;
+import org.powerbot.script.rt4.*;
 
 import java.awt.*;
 

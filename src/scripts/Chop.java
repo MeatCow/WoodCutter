@@ -38,6 +38,10 @@ public class Chop extends Task {
             ctx.movement.step(randomTree);
         }
         tree.interact("Chop");
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+        }
     }
     
 

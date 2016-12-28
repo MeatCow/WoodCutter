@@ -6,10 +6,8 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
-import EnumsScript.Logs;
-import EnumsScript.Trees;
-import gui.InitialOptions;
-import gui.ProgressPaint;
+import EnumsScript.*;
+import gui.*;
 import org.powerbot.script.*;
 import org.powerbot.script.rt4.ClientContext;
 
@@ -32,13 +30,13 @@ public class WoodCutter extends PollingScript<ClientContext> implements PaintLis
 
         int[] treeIds = getCutableTreeIds();
         int[] logIds = getDropableLogIds();
-        boolean bank = getBankChoice();
+        Banks bank = getBankChoice();
 
         tasks = new ArrayList();
 
         tasks.add(new Chop(ctx, treeIds));
         tasks.add(new Return(ctx));
-        if (bank) {
+        if (bank != null) {
             tasks.add(new Bank(ctx, logIds));
         } else {
             tasks.add(new Drop(ctx, logIds));
@@ -67,14 +65,8 @@ public class WoodCutter extends PollingScript<ClientContext> implements PaintLis
 
     private int[] getCutableTreeIds() {
         List<Integer> cutableIds = new LinkedList();
-        if (optionsWindow.getNormalTrees()) {
-            for (int i:Trees.NORMAL.getTreeIds()){
-                cutableIds.add(i);
-            }
-        }
-
-        if (optionsWindow.getOaks()) {
-            for (int i:Trees.OAK.getTreeIds()) {
+        if (optionsWindow.getYews()) {
+            for(int i:Trees.YEW.getTreeIds()) {
                 cutableIds.add(i);
             }
         }
@@ -83,8 +75,13 @@ public class WoodCutter extends PollingScript<ClientContext> implements PaintLis
                 cutableIds.add(i);
             }
         }
-        if (optionsWindow.getYews()) {
-            for(int i:Trees.YEW.getTreeIds()) {
+        if (optionsWindow.getOaks()) {
+            for (int i:Trees.OAK.getTreeIds()) {
+                cutableIds.add(i);
+            }
+        }
+        if (optionsWindow.getNormalTrees()) {
+            for (int i:Trees.NORMAL.getTreeIds()){
                 cutableIds.add(i);
             }
         }
@@ -105,14 +102,11 @@ public class WoodCutter extends PollingScript<ClientContext> implements PaintLis
         if (optionsWindow.getYews()) {
             dropableLogs[3] = Logs.Yew.getId();
         }
-
         return dropableLogs;
     }
 
-    private boolean getBankChoice() {
-        InitialOptions.Methods bankChoice = optionsWindow.getBankChoice();
-
-        return bankChoice == InitialOptions.Methods.BANK;
+    private Banks getBankChoice() {
+        return optionsWindow.getBankChoice();
     }
 
 }

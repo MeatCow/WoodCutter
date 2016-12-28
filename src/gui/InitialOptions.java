@@ -5,11 +5,14 @@
  */
 package gui;
 
+import EnumsScript.Banks;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.*;
+
 
 /**
  *
@@ -19,7 +22,7 @@ public class InitialOptions extends JFrame {
 
     private boolean infoReady;
 
-    public enum Methods {
+    public static enum Methods {
         BANK,
         DROP;
     }
@@ -40,7 +43,7 @@ public class InitialOptions extends JFrame {
         willowTree = new JCheckBox();
         treeLabel = new JLabel();
         methodLabel = new JLabel();
-        bankChoices = new JComboBox();
+        bankingMethod = new JComboBox();
         startButton = new JButton();
 
         setDefaultCloseOperation(HIDE_ON_CLOSE);
@@ -59,8 +62,8 @@ public class InitialOptions extends JFrame {
 
         methodLabel.setText("Method");
 
-        bankChoices.addItem(Methods.BANK);
-        bankChoices.addItem(Methods.DROP);
+        bankingMethod.addItem(Methods.BANK);
+        bankingMethod.addItem(Methods.DROP);
 
         startButton.setText("Start");
         startButton.addActionListener(new ActionListener() {
@@ -88,7 +91,7 @@ public class InitialOptions extends JFrame {
                             .addComponent(normalTree))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(bankChoices, 0, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(bankingMethod, 0, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(methodLabel))
                         .addGap(92, 92, 92))
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -113,7 +116,7 @@ public class InitialOptions extends JFrame {
                         .addGap(18, 18, 18))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(bankChoices, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(bankingMethod, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(4, 4, 4)))
                 .addComponent(oakTree)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -189,8 +192,12 @@ public class InitialOptions extends JFrame {
         return yewTree.isSelected();
     }
 
-    public Methods getBankChoice() {
-        return (Methods) bankChoices.getSelectedItem();
+    public Banks getBankChoice() {
+        Banks choice = null;
+        if ((Methods) bankingMethod.getSelectedItem() == Methods.BANK) {
+            choice = (Banks) bankingLocations.getSelectedItem();
+        }
+        return choice;
     }
 
     private JButton startButton;
@@ -198,7 +205,8 @@ public class InitialOptions extends JFrame {
     private JCheckBox yewTree;
     private JCheckBox oakTree;
     private JCheckBox willowTree;
-    private JComboBox bankChoices;
+    private JComboBox bankingMethod;
+    private JComboBox bankingLocations;
     private JLabel treeLabel;
     private JLabel methodLabel;
     private JPanel mainPanel;

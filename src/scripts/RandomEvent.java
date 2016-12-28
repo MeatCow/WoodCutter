@@ -47,7 +47,7 @@ public class RandomEvent extends Task {
     }
 
     private void turningCamera(){
-        ctx.camera.pitch(Random.nextInt(0,100));
+        ctx.camera.pitch(Random.nextInt(70,100));
         ctx.camera.angle(Random.nextInt(0,360));
     }
 
