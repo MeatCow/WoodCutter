@@ -50,6 +50,21 @@ public class ProgressPaint {
 
         int hourlyXp = calculateXpHour();
         g.drawString(hourlyXp + " xp/hour",RECTANGLE_X + 2, RECTANGLE_Y + 80);
+
+        drawMouse(g);
+    }
+
+    private void drawMouse(Graphics g) {
+        int mouseX = (int) ctx.input.getLocation().getX();
+        int mouseY = (int) ctx.input.getLocation().getY();
+        int maxX = (int) ctx.game.dimensions().getWidth();
+        int maxY = (int) ctx.game.dimensions().getHeight();
+
+        g.setColor(Color.red);
+
+        g.drawLine(0,mouseY,maxX,mouseY); // Horizontal line
+        g.drawLine(mouseX,0,mouseX,maxY); // Vertical line
+
     }
 
     private int calculateXpHour() {
